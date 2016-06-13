@@ -1,0 +1,87 @@
+$def with (name, rank)
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Countdown</title>
+</head>
+
+<body>
+	<h1 align="center">Araell's Life Countdown</h1>
+    <div id="countdown" align="center">
+        <span class="days"></span> days
+        <span class="hours"></span> hours
+        <span class="minutes"></span> minutes
+        <span class="seconds"></span> seconds
+    </div>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+    <span>Seriously,who the fuck cares.I'm gonna waste it anyway.</span>
+    </div>
+    <!-- 
+		$if name:
+			I just wanted to say <em>hello</em> to $name rank $rank.
+		$else:
+    		<em>Hello</em>, world!
+    	-->
+    <script type="text/javascript">
+    function getTimeRemaining(endtime) {
+        var t = Date.parse(endtime) - Date.parse(new Date());
+        var seconds = Math.floor((t / 1000) % 60);
+        var minutes = Math.floor((t / 1000 / 60) % 60);
+        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        return {
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+    function initializeCountdown(id, endtime) {
+        var countdown = document.getElementById(id);
+        var daysSpan = countdown.querySelector('.days');
+        var hoursSpan = countdown.querySelector('.hours');
+        var minutesSpan = countdown.querySelector('.minutes');
+        var secondsSpan = countdown.querySelector('.seconds');
+
+        function updateClock() {
+            var t = getTimeRemaining(endtime);
+
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+            if (t.total <= 0) {
+                clearInterval(timeinterval);
+            }
+        }
+
+        updateClock();
+        var timeinterval = setInterval(updateClock, 1000);
+    }
+
+    function startTimer(display) {
+        var timer = 0,
+            minutes, seconds;
+        setInterval(function() {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            display.textContent = seconds + " seconds";
+            if (minutes)
+                display.textContent = minutes + " minutes " + display.textContent;
+
+            ++timer;
+        }, 1000);
+    }
+
+    window.onload = function() {
+        initializeCountdown("countdown", "2060-10-07");
+    }
+    </script>
+</body>
+
+</html>
